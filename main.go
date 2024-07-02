@@ -60,7 +60,7 @@ func main() {
 
 	save := fmt.Sprintf("%s, %s, %s, %s, %s\n", character, action, description, setting, plottwist)
 	// Save to file
-	f, err := os.OpenFile("slugs..txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile("slugs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		fmt.Println(err)
 	}

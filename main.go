@@ -103,13 +103,9 @@ func cleanTitle(filename string) error {
 		}
 
 		paren := false
-		cc := 0
+
 		for {
-			cc++
-			fmt.Println(cc, striped)
-			if cc > 100 {
-				break
-			}
+
 			if strings.Contains(striped, "(") {
 				p1 := strings.Index(striped, "(")
 				p2 := strings.Index(striped, ")")
@@ -147,7 +143,29 @@ func cleanTitle(filename string) error {
 		}
 	}
 
+	chain := markovChain(titles) // create markov chain
+	for k, v := range chain {
+		fmt.Println(k, v)
+	}
+
 	// save to file
 	os.WriteFile("cleaned.txt", []byte(strings.Join(titles, "\n")), 0644)
 	return nil
+}
+
+// Create Markov chain from a slice of strings
+func markovChain(data []string) map[string][]string {
+	chain := make(map[string][]string)
+
+	for _, line := range data {
+		words := strings.Split(line, " ")
+		for i := 0; i < len(words)-1; i++ {
+			key := words[i]
+			if _, ok := chain[key]; !ok {
+				chain[key] = []string{}
+			}
+			chain[key] = append(chain[key], words[i+1])
+		}
+	}
+	return chain
 }

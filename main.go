@@ -27,25 +27,24 @@ var Rsettings string
 var Rplottwists string
 
 func main() {
-	//fmt.Println("Starting the application...")
 
 	characters := strings.Split(Rcharacters, "\n")
 	descriptions := strings.Split(Rdescriptions, "\n")
-	//names := strings.Split(Rnames, "\n")
+	names := strings.Split(Rnames, "\n")
 	settings := strings.Split(Rsettings, "\n")
 	actions := strings.Split(actions, "\n")
 	plottwists := strings.Split(Rplottwists, "\n")
 
 	dcount := len(descriptions)
 	ccount := len(characters)
-	//ncount := len(names)
+	ncount := len(names)
 	scount := len(settings)
 	acount := len(actions)
 	pcount := len(plottwists)
 
 	description := descriptions[rand.IntN(dcount)]
 	character := characters[rand.IntN(ccount)]
-	//name := names[rand.IntN(ncount)]
+	name := names[rand.IntN(ncount)]
 	setting := settings[rand.IntN(scount)]
 	action := actions[rand.IntN(acount)]
 	plottwist := plottwists[rand.IntN(pcount)]
@@ -58,7 +57,7 @@ func main() {
 	// fmt.Println("Setting: ", setting)
 	// fmt.Println("Plottwist: ", plottwist)
 
-	save := fmt.Sprintf("%s, %s, %s, %s, %s\n", character, action, description, setting, plottwist)
+	save := fmt.Sprintf("%s %s, %s, %s, %s, %s\n", character, name, action, description, setting, plottwist)
 	// Save to file
 	f, err := os.OpenFile("slugs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {

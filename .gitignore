@@ -1,2 +1,7 @@
+bin/*debug*
+
 mix-and-match.md
 slugs.txt
+
+
+!*.md

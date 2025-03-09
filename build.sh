@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-archs=(amd64 arm64 ppc64le ppc64 s390x 386)
+archs=(amd64 arm64)
 
 for arch in ${archs[@]}
 do

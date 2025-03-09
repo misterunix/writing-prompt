@@ -2,6 +2,6 @@ bin/*debug*
 
 mix-and-match.md
 slugs.txt
-
+cleaned.txt
 
 !*.md

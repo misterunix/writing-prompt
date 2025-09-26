@@ -1,7 +1,10 @@
 bin/*debug*
 
-mix-and-match.md
+
 slugs.txt
 cleaned.txt
 
-!*.md
+bin/*.md
+!README.md
+
+mix-and-match.md

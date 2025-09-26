@@ -177,19 +177,19 @@ func markovChain(data []string) map[string][]string {
 	return chain
 }
 
-// Create Markov chain from a slice of strings
-func markovChain2(data []string) map[string][]markov {
-	chain := make(map[string][]string)
+// // Create Markov chain from a slice of strings
+// func markovChain2(data []string) map[string][]markov {
+// 	chain := make(map[string][]string)
 
-	for _, line := range data {
-		words := strings.Split(line, " ")
-		for i := 0; i < len(words)-1; i++ {
-			key := words[i]
-			if _, ok := chain[key]; !ok {
-				chain[key] = []string{}
-			}
-			chain[key] = append(chain[key], words[i+1])
-		}
-	}
-	return chain
-}
+// 	for _, line := range data {
+// 		words := strings.Split(line, " ")
+// 		for i := 0; i < len(words)-1; i++ {
+// 			key := words[i]
+// 			if _, ok := chain[key]; !ok {
+// 				chain[key] = []string{}
+// 			}
+// 			chain[key] = append(chain[key], words[i+1])
+// 		}
+// 	}
+// 	return chain
+// }

@@ -9,6 +9,11 @@ archs=(amd64 arm64)
 
 for arch in ${archs[@]}
 do
-	env GOOS=linux GOARCH=${arch} go build -ldflags="-w -s" -o bin/writing-prompt-linux-release-${arch}
+	env GOOS=linux GOARCH=${arch} go build -ldflags="-w -s" -o bin/writing-prompt-linux-${arch}
+done
+
+for arch in ${archs[@]}
+do
+	env GOOS=windows GOARCH=${arch} go build -ldflags="-w -s" -o bin/writing-prompt-windows-${arch}
 done
 

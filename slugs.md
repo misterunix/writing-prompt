@@ -26,3 +26,20 @@
 |maid Opal|buys|irritating|water cooler|hurricane|
 |painter Ethel|cracks|tearing|dressing room|telegram|
 |building inspector Abraham|discovers|calculated|stairwell|weapons stockpile|
+|soldier of fortune Thelma|picks|spiral|zephyr|wildfire|
+|drug addict Jean|burns|nonresponsive|underwater|dead body|
+|orthodontist Virgil|imprisons|incomprehensible|sub shop|last will and testament|
+|secret agent Edith|touches|primary|high school|haunting|
+|sailor Dick|intercepts|displeased|market|love at first sight|
+|pianist Carolyn|steals|squeamish|laboratory|investigation|
+|social worker Lee|remembers|apathetic|botanical garden|flood|
+|movie star Audrey|undermines|whimpering|prison|audition|
+|cowboy Hattie|sleeps with|hunchbacked|cathedral|plastic surgery|
+|burn victim Cherry|enchants|spotty|protest march|chemical weapons|
+|surfer Margie|bruises|tipsy|yacht|stampede|
+|painter Jenny|twists|punitive|subway|earthquake|
+|madman Blossom|flirts|primitive|classroom|panic|
+|trapeze artist Frederick|blinds|prevalent|record store|tombstone|
+|sculptor Douglas|moves|cultured|computer store|secret garden|
+|welder Art|relaxes|left|cliff|dead president|
+|fisherman Peggy|loves|vehement|red carpet|last will and testament|

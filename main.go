@@ -37,6 +37,11 @@ type markov struct {
 
 func main() {
 
+	var countWanted int
+
+	flag.IntVar(&countWanted, "n", 1, "Number of slugs to generate.")
+	flag.Parse()
+
 	var bookTitle string
 	flag.StringVar(&bookTitle, "t", "", "Book title to clean.")
 	flag.Parse()
@@ -60,26 +65,28 @@ func main() {
 	acount := len(actions)
 	pcount := len(plottwists)
 
-	description := descriptions[rand.IntN(dcount)]
-	character := characters[rand.IntN(ccount)]
-	name := names[rand.IntN(ncount)]
-	setting := settings[rand.IntN(scount)]
-	action := actions[rand.IntN(acount)]
-	plottwist := plottwists[rand.IntN(pcount)]
+	for i := range countWanted {
 
-	save := fmt.Sprintf("|%s %s|%s|%s|%s|%s|\n", character, name, action, description, setting, plottwist)
-	// Save to file
-	f, err := os.OpenFile("slugs.md", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		fmt.Println(err)
+		description := descriptions[rand.IntN(dcount)]
+		character := characters[rand.IntN(ccount)]
+		name := names[rand.IntN(ncount)]
+		setting := settings[rand.IntN(scount)]
+		action := actions[rand.IntN(acount)]
+		plottwist := plottwists[rand.IntN(pcount)]
+
+		save := fmt.Sprintf("|%s %s|%s|%s|%s|%s|\n", character, name, action, description, setting, plottwist)
+		// Save to file
+		f, err := os.OpenFile("slugs.md", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer f.Close()
+		if _, err := f.WriteString(save); err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Printf("%d: %s", i, save)
 	}
-	defer f.Close()
-	if _, err := f.WriteString(save); err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(save)
-
 }
 
 func cleanTitle(filename string) error {

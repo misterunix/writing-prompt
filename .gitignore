@@ -4,7 +4,5 @@ bin/*
 slugs.txt
 cleaned.txt
 
-bin/*.md
-!README.md
+!*.md
 
-mix-and-match.md

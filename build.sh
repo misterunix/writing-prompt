@@ -14,6 +14,6 @@ done
 
 for arch in ${archs[@]}
 do
-	env GOOS=windows GOARCH=${arch} go build -ldflags="-w -s" -o bin/writing-prompt-windows-${arch}
+	env GOOS=windows GOARCH=${arch} go build -ldflags="-w -s" -o bin/writing-prompt-windows-${arch}.exe
 done
 

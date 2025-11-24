@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand/v2"
 	"os"
+	"path"
 	"sort"
 	"strings"
 )
@@ -37,20 +38,21 @@ type markov struct {
 
 func main() {
 
-	var countWanted int
-
-	flag.IntVar(&countWanted, "n", 1, "Number of slugs to generate.")
-	flag.Parse()
-
+	var countWanted int // number of slugs to generate
 	var bookTitle string
+
+	// parse command line arguments
+	flag.IntVar(&countWanted, "n", 1, "Number of slugs to generate.")
 	flag.StringVar(&bookTitle, "t", "", "Book title to clean.")
 	flag.Parse()
 
+	// WTF did I do?
 	if bookTitle != "" {
 		cleanTitle(bookTitle)
 		os.Exit(0)
 	}
 
+	// split data into slices
 	characters := strings.Split(Rcharacters, "\n")
 	descriptions := strings.Split(Rdescriptions, "\n")
 	names := strings.Split(Rnames, "\n")
@@ -58,6 +60,7 @@ func main() {
 	actions := strings.Split(actions, "\n")
 	plottwists := strings.Split(Rplottwists, "\n")
 
+	// get counts of slices
 	dcount := len(descriptions)
 	ccount := len(characters)
 	ncount := len(names)
@@ -65,6 +68,29 @@ func main() {
 	acount := len(actions)
 	pcount := len(plottwists)
 
+	// get home directory
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// create data directory
+	csvDir := path.Join(homeDir, "writing-prompts")
+	err = os.MkdirAll(csvDir, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	fmt.Print("Data directory: '", csvDir, "'\n")
+
+	// create temp file in data directory
+	f, err := os.CreateTemp(csvDir, "slugs-*.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer f.Close()
+
+	// loop to generate slugs
 	for i := range countWanted {
 
 		description := descriptions[rand.IntN(dcount)]
@@ -74,17 +100,16 @@ func main() {
 		action := actions[rand.IntN(acount)]
 		plottwist := plottwists[rand.IntN(pcount)]
 
-		save := fmt.Sprintf("|%s %s|%s|%s|%s|%s|\n", character, name, action, description, setting, plottwist)
-		// Save to file
-		f, err := os.OpenFile("slugs.md", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-		if err != nil {
-			fmt.Println(err)
-		}
-		defer f.Close()
+		// format slug as CSV line
+		save := fmt.Sprintf("%s,%s,%s,%s,%s,%s\n", character, name, action, description, setting, plottwist)
+
+		// write slug to file
 		if _, err := f.WriteString(save); err != nil {
 			fmt.Println(err)
+			os.Exit(1)
 		}
 
+		// print slug to console
 		fmt.Printf("%d: %s", i, save)
 	}
 }

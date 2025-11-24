@@ -1,8 +1,5 @@
 bin/*
 
-
-slugs.txt
-cleaned.txt
-
 !*.md
 
+cleaned.txt

@@ -36,6 +36,9 @@ type markov struct {
 	probabilty float64
 }
 
+var port int = 6666
+var logging bool = false
+
 func main() {
 
 	var countWanted int // number of slugs to generate
@@ -44,6 +47,8 @@ func main() {
 	// parse command line arguments
 	flag.IntVar(&countWanted, "n", 1, "Number of slugs to generate.")
 	flag.StringVar(&bookTitle, "t", "", "Book title to clean.")
+	flag.BoolVar(&logging, "l", false, "Turn logging on.")
+	flag.IntVar(&port, "p", 6666, "Port number for web server.")
 	flag.Parse()
 
 	// WTF did I do?

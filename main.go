@@ -106,7 +106,8 @@ func main() {
 		plottwist := plottwists[rand.IntN(pcount)]
 
 		// format slug as CSV line
-		save := fmt.Sprintf("%s,%s,%s,%s,%s,%s\n", character, name, action, description, setting, plottwist)
+		save := fmt.Sprintf("Writing Prompt:\nCharacter:'%s'\nName:'%s'\nAction:'%s'\nDescription:'%s'\nSetting:'%s'\nPlotTwist:'%s'\n",
+			character, name, action, description, setting, plottwist)
 
 		// write slug to file
 		if _, err := f.WriteString(save); err != nil {

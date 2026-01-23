@@ -12,7 +12,7 @@ import (
 )
 
 //go:embed data/actions.txt
-var actions string
+var Ractions string
 
 //go:embed data/characters.txt
 var Rcharacters string
@@ -29,6 +29,15 @@ var Rsettings string
 //go:embed data/plottwists.txt
 var Rplottwists string
 
+//go:embed webfiles/htmx.min.js
+var htmxJS string
+
+//go:embed webfiles/w3.css
+var w3CSS string
+
+//go:embed webfiles/index.html
+var indexHTML string
+
 type markov struct {
 	base       string
 	next       string
@@ -36,8 +45,17 @@ type markov struct {
 	probabilty float64
 }
 
-var port int = 6666
+var port int = 5544
 var logging bool = false
+
+var (
+	characters   []string
+	names        []string
+	actions      []string
+	descriptions []string
+	settings     []string
+	plottwists   []string
+)
 
 func main() {
 
@@ -48,7 +66,7 @@ func main() {
 	flag.IntVar(&countWanted, "n", 1, "Number of slugs to generate.")
 	flag.StringVar(&bookTitle, "t", "", "Book title to clean.")
 	flag.BoolVar(&logging, "l", false, "Turn logging on.")
-	flag.IntVar(&port, "p", 6666, "Port number for web server.")
+	flag.IntVar(&port, "p", 5544, "Port number for web server.")
 	flag.Parse()
 
 	// WTF did I do?
@@ -58,20 +76,22 @@ func main() {
 	}
 
 	// split data into slices
-	characters := strings.Split(Rcharacters, "\n")
-	descriptions := strings.Split(Rdescriptions, "\n")
-	names := strings.Split(Rnames, "\n")
-	settings := strings.Split(Rsettings, "\n")
-	actions := strings.Split(actions, "\n")
-	plottwists := strings.Split(Rplottwists, "\n")
+	characters = strings.Split(Rcharacters, "\n")
+	descriptions = strings.Split(Rdescriptions, "\n")
+	names = strings.Split(Rnames, "\n")
+	settings = strings.Split(Rsettings, "\n")
+	actions = strings.Split(Ractions, "\n")
+	plottwists = strings.Split(Rplottwists, "\n")
 
 	// get counts of slices
-	dcount := len(descriptions)
-	ccount := len(characters)
-	ncount := len(names)
-	scount := len(settings)
-	acount := len(actions)
-	pcount := len(plottwists)
+	/*
+		dcount := len(descriptions)
+		ccount := len(characters)
+		ncount := len(names)
+		scount := len(settings)
+		acount := len(actions)
+		pcount := len(plottwists)
+	*/
 
 	// get home directory
 	homeDir, err := os.UserHomeDir()
@@ -98,15 +118,18 @@ func main() {
 	// loop to generate slugs
 	for i := range countWanted {
 
-		description := descriptions[rand.IntN(dcount)]
-		character := characters[rand.IntN(ccount)]
-		name := names[rand.IntN(ncount)]
-		setting := settings[rand.IntN(scount)]
-		action := actions[rand.IntN(acount)]
-		plottwist := plottwists[rand.IntN(pcount)]
+		character, name, action, description, setting, plottwist := createSlug()
 
+		/*
+			description := descriptions[rand.IntN(dcount)]
+			character := characters[rand.IntN(ccount)]
+			name := names[rand.IntN(ncount)]
+			setting := settings[rand.IntN(scount)]
+			action := actions[rand.IntN(acount)]
+			plottwist := plottwists[rand.IntN(pcount)]
+		*/
 		// format slug as CSV line
-		save := fmt.Sprintf("Writing Prompt:\nCharacter:'%s'\nName:'%s'\nAction:'%s'\nDescription:'%s'\nSetting:'%s'\nPlotTwist:'%s'\n",
+		save := fmt.Sprintf("Writing Prompt:\nCharacter:'%s'\nName:'%s'\nAction:'%s'\nDescription:'%s'\nSetting:'%s'\nPlot Twist:'%s'\n",
 			character, name, action, description, setting, plottwist)
 
 		// write slug to file
@@ -118,6 +141,23 @@ func main() {
 		// print slug to console
 		fmt.Printf("%d: %s", i, save)
 	}
+}
+
+func createSlug() (string, string, string, string, string, string) {
+	dcount := len(descriptions)
+	ccount := len(characters)
+	ncount := len(names)
+	scount := len(settings)
+	acount := len(actions)
+	pcount := len(plottwists)
+
+	character := characters[rand.IntN(ccount)]
+	name := names[rand.IntN(ncount)]
+	setting := settings[rand.IntN(scount)]
+	action := actions[rand.IntN(acount)]
+	description := descriptions[rand.IntN(dcount)]
+	plottwist := plottwists[rand.IntN(pcount)]
+	return character, name, action, description, setting, plottwist
 }
 
 func cleanTitle(filename string) error {

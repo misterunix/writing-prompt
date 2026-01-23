@@ -1,6 +1,5 @@
 package main
 
-/*
 import (
 	"fmt"
 	"net/http"
@@ -130,4 +129,3 @@ func rollbones(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Result: %d<br>%s<br>", t, rs)
 
 }
-*/

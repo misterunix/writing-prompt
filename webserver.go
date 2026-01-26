@@ -1,5 +1,6 @@
 package main
 
+/*
 import (
 	"fmt"
 	"net/http"
@@ -15,7 +16,7 @@ func Server() {
 	mux.HandleFunc("/js/", jsPage)
 	mux.HandleFunc("/images/", imagePage)
 
-	mux.HandleFunc("POST /roll/", rollbones)
+	//mux.HandleFunc("POST /roll/", rollbones)
 
 	hostport := fmt.Sprintf("%s:%d", "0.0.0.0", port)
 	http.ListenAndServe(hostport, mux)
@@ -28,6 +29,22 @@ func rootPage(w http.ResponseWriter, r *http.Request) {
 	if logging {
 		fmt.Println("Request for:", pathStr)
 	}
+
+	type Slug struct {
+		Character   string
+		Name        string
+		Action      string
+		Description string
+		Setting     string
+		Plottwist   string
+	}
+
+var Slugs []Slug
+
+character, name, action, description, setting, plottwist := createSlug()
+save := fmt.Sprintf("Writing Prompt:\nCharacter:'%s'\nName:'%s'\nAction:'%s'\nDescription:'%s'\nSetting:'%s'\nPlot Twist:'%s'\n",
+			character, name, action, description, setting, plottwist)
+
 
 	w.Write([]byte(indexHTML))
 
@@ -129,3 +146,4 @@ func rollbones(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Result: %d<br>%s<br>", t, rs)
 
 }
+*/

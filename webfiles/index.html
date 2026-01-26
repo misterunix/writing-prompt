@@ -4,8 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<script src="/js/htmx.min.js"></script>
+	<title>Slugs</title>
+	
 	<link rel="stylesheet" href="css/w3.css">
 	<style>
 		body {
@@ -17,11 +17,7 @@
 <body>
 	<div class="w3-row w3-large">
 		<div class="w3-third w3-container w3-green">
-			<form hx-post="/roll/" hx-target="#response-area" hx-swap="innerHTML">
-				<label for="rollpattern">Roll Pattern: (t3)4d6+1</label>
-				<input type="text" id="roll" name="diceroll" placeholder="Dice Pattern" class="w3-input w3-border">
-				<button class="w3-button w3-green w3-hover-purple w3-round-large w3-medium w3-border w3-border-red"
-					type="submit">Submit</button>
+		{{range .Slugs}}
 		</div>
 	</div>
 	</form>

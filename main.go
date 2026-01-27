@@ -116,7 +116,7 @@ func main() {
 	defer f.Close()
 
 	// loop to generate slugs
-	for i := range countWanted {
+	for range countWanted {
 
 		character, name, action, description, setting, plottwist := createSlug()
 
@@ -139,7 +139,7 @@ func main() {
 		}
 
 		// print slug to console
-		fmt.Printf("%d: %s", i, save)
+		fmt.Printf("%s", save)
 	}
 }
 

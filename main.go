@@ -29,15 +29,6 @@ var Rsettings string
 //go:embed data/plottwists.txt
 var Rplottwists string
 
-//go:embed webfiles/htmx.min.js
-var htmxJS string
-
-//go:embed webfiles/w3.css
-var w3CSS string
-
-//go:embed webfiles/index.html
-var indexHTML string
-
 type markov struct {
 	base       string
 	next       string

@@ -29,6 +29,24 @@ var Rsettings string
 //go:embed data/plottwists.txt
 var Rplottwists string
 
+//go:embed data/scifi-actions.txt
+var RscifiActions string
+
+//go:embed data/scifi-characters.txt
+var RscifiCharacters string
+
+//go:embed data/scifi-descriptions.txt
+var RscifiDescriptions string
+
+//go:embed data/scifi-names.txt
+var RscifiNames string
+
+//go:embed data/scifi-settings.txt
+var RscifiSettings string
+
+//go:embed data/scifi-plottwists.txt
+var RscifiPlottwists string
+
 type markov struct {
 	base       string
 	next       string

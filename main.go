@@ -70,12 +70,14 @@ func main() {
 
 	var countWanted int // number of slugs to generate
 	var bookTitle string
+	var mode int
 
 	// parse command line arguments
 	flag.IntVar(&countWanted, "n", 1, "Number of slugs to generate.")
 	flag.StringVar(&bookTitle, "t", "", "Book title to clean.")
 	flag.BoolVar(&logging, "l", false, "Turn logging on.")
 	flag.IntVar(&port, "p", 5544, "Port number for web server.")
+	flag.IntVar(&mode, "m", 0, "Mode of operation: 0 for default, 1 for sci-fi.")
 	flag.Parse()
 
 	// WTF did I do?
@@ -85,12 +87,29 @@ func main() {
 	}
 
 	// split data into slices
-	characters = strings.Split(Rcharacters, "\n")
-	descriptions = strings.Split(Rdescriptions, "\n")
-	names = strings.Split(Rnames, "\n")
-	settings = strings.Split(Rsettings, "\n")
-	actions = strings.Split(Ractions, "\n")
-	plottwists = strings.Split(Rplottwists, "\n")
+	switch mode {
+	case 0:
+		characters = strings.Split(Rcharacters, "\n")
+		descriptions = strings.Split(Rdescriptions, "\n")
+		names = strings.Split(Rnames, "\n")
+		settings = strings.Split(Rsettings, "\n")
+		actions = strings.Split(Ractions, "\n")
+		plottwists = strings.Split(Rplottwists, "\n")
+	case 1:
+		characters = strings.Split(RscifiCharacters, "\n")
+		descriptions = strings.Split(RscifiDescriptions, "\n")
+		names = strings.Split(RscifiNames, "\n")
+		settings = strings.Split(RscifiSettings, "\n")
+		actions = strings.Split(RscifiActions, "\n")
+		plottwists = strings.Split(RscifiPlottwists, "\n")
+	default:
+		characters = strings.Split(Rcharacters, "\n")
+		descriptions = strings.Split(Rdescriptions, "\n")
+		names = strings.Split(Rnames, "\n")
+		settings = strings.Split(Rsettings, "\n")
+		actions = strings.Split(Ractions, "\n")
+		plottwists = strings.Split(Rplottwists, "\n")
+	}
 
 	// get counts of slices
 	/*

@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-//go:embed data/0/actions.txt
-var Ractions string
-
 //go:embed data/0/characters.txt
 var Rcharacters string
+
+//go:embed data/0/actions.txt
+var Ractions string
 
 //go:embed data/0/descriptions.txt
 var Rdescriptions string

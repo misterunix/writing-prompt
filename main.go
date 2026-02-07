@@ -11,40 +11,44 @@ import (
 	"strings"
 )
 
-//go:embed data/actions.txt
+//go:embed data/0/actions.txt
 var Ractions string
 
-//go:embed data/characters.txt
+//go:embed data/0/characters.txt
 var Rcharacters string
 
-//go:embed data/descriptions.txt
+//go:embed data/0/descriptions.txt
 var Rdescriptions string
 
-//go:embed data/names.txt
+//go:embed data/0/names.txt
 var Rnames string
 
-//go:embed data/settings.txt
+//go:embed data/0/settings.txt
 var Rsettings string
 
-//go:embed data/plottwists.txt
+//go:embed data/0/plottwists.txt
 var Rplottwists string
 
-//go:embed data/scifi-actions.txt
+//
+//
+//
+
+//go:embed data/1/actions.txt
 var RscifiActions string
 
-//go:embed data/scifi-characters.txt
+//go:embed data/1/characters.txt
 var RscifiCharacters string
 
-//go:embed data/scifi-descriptions.txt
+//go:embed data/1/descriptions.txt
 var RscifiDescriptions string
 
-//go:embed data/scifi-names.txt
+//go:embed data/1/names.txt
 var RscifiNames string
 
-//go:embed data/scifi-settings.txt
+//go:embed data/1/settings.txt
 var RscifiSettings string
 
-//go:embed data/scifi-plottwists.txt
+//go:embed data/1/plottwists.txt
 var RscifiPlottwists string
 
 type markov struct {
@@ -78,6 +82,7 @@ func main() {
 	flag.BoolVar(&logging, "l", false, "Turn logging on.")
 	flag.IntVar(&port, "p", 5544, "Port number for web server.")
 	flag.IntVar(&mode, "m", 0, "Mode of operation: 0 for default, 1 for sci-fi.")
+
 	flag.Parse()
 
 	// WTF did I do?

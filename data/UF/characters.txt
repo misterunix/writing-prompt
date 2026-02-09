@@ -1,0 +1,112 @@
+Private Investigator
+Police Detective
+Bounty Hunter
+Forensic Pathologist
+Paranormal Consultant
+Defense Attorney
+Bail Bondsman
+Security Guard
+Librarian
+Archivist
+Antiquarian Book Dealer
+University Professor
+Museum Curator
+Archaeologist
+Translator
+Art Restorer
+Coroner
+Veterinarian
+ER Nurse
+Pharmacist
+Trauma Surgeon
+Botanist
+Medical Examiner
+Alchemy Lab Tech
+Bartender
+Taxi or Rideshare Driver
+Tattoo Artist
+Mechanic
+Construction Worker
+Night Watchman
+Barista
+Locksmith
+Janitor
+Journalist
+Photojournalist
+Graphic Designer
+Street Artist
+Radio DJ
+Social Media Influencer
+Blogger
+Mercenary
+Professional Thief
+Smuggler
+Crime Scene Cleaner
+Repo Man
+Information Broker
+Bodyguard
+Firefighter
+911 Dispatcher
+EMT / Paramedic
+Animal Control Officer
+Park Ranger
+Social Worker
+Postal Carrier
+Civil Engineer
+Real Estate Agent
+Tax Auditor
+Hedge Fund Manager
+Notary Public
+Human Resources Manager
+Compliance Officer
+Patent Attorney
+Corporate Fixer
+Ethical Hacker
+Data Scientist
+Hardware Repair Technician
+Systems Administrator
+UX Designer
+AI Developer
+Crypto Miner
+Cryptographer
+Blacksmith
+Jeweler
+Tailor
+Seamstress
+Clockmaker
+Butcher
+Carpenter
+Electrician
+Glassblower
+Sewer Inspector
+Garbage Collector
+Subway Conductor
+Bridge Inspector
+Urban Planner
+Land Surveyor
+Utility Lineman
+Architect
+Funeral Director
+Embalmer
+Psychotherapist
+Yoga Instructor
+Personal Trainer
+Doula
+Esthetician
+Massage Therapist
+Club Promoter
+Professional Gambler
+Stage Magician
+Sound Engineer
+Bouncer
+Burlesque Performer
+Talent Agent
+Street Performer
+Debt Collector
+Process Server
+Estate Liquidator
+Forger
+Professional Mourner
+Dog Walker
+Urban Explorer
+Courier

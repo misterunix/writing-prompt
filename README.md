@@ -1,5 +1,11 @@
 # simple writing prompt generator
 
+Install doesnt make sense as I havent figured out where I want all the files to go or to include it in the binary.
+
+-m 0 generic
+-m 1 science fiction
+-m 2 fantasy
+
 based on
 
 - character

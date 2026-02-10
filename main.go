@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -51,6 +52,8 @@ var RscifiSettings string
 //go:embed data/1/plottwists.txt
 var RscifiPlottwists string
 
+//var workingDir string
+
 type markov struct {
 	base       string
 	next       string
@@ -72,6 +75,12 @@ var (
 
 func main() {
 
+	workingDir, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 	var countWanted int // number of slugs to generate
 	var bookTitle string
 	var mode int
@@ -91,49 +100,61 @@ func main() {
 		os.Exit(0)
 	}
 
-	// split data into slices
-	switch mode {
-	case 0:
-		characters = strings.Split(Rcharacters, "\n")
-		descriptions = strings.Split(Rdescriptions, "\n")
-		names = strings.Split(Rnames, "\n")
-		settings = strings.Split(Rsettings, "\n")
-		actions = strings.Split(Ractions, "\n")
-		plottwists = strings.Split(Rplottwists, "\n")
-	case 1:
-		characters = strings.Split(RscifiCharacters, "\n")
-		descriptions = strings.Split(RscifiDescriptions, "\n")
-		names = strings.Split(RscifiNames, "\n")
-		settings = strings.Split(RscifiSettings, "\n")
-		actions = strings.Split(RscifiActions, "\n")
-		plottwists = strings.Split(RscifiPlottwists, "\n")
-	default:
-		characters = strings.Split(Rcharacters, "\n")
-		descriptions = strings.Split(Rdescriptions, "\n")
-		names = strings.Split(Rnames, "\n")
-		settings = strings.Split(Rsettings, "\n")
-		actions = strings.Split(Ractions, "\n")
-		plottwists = strings.Split(Rplottwists, "\n")
+	dataDirBase := path.Join(workingDir, "data")
+	dataFolder := strconv.Itoa(mode)
+	dataDir := path.Join(dataDirBase, dataFolder)
+
+	// check if data directory exists
+	if _, err := os.Stat(dataDir); os.IsNotExist(err) {
+		fmt.Printf("Data directory '%s' does not exist.\n", dataDir)
+		os.Exit(1)
 	}
 
-	// get counts of slices
-	/*
-		dcount := len(descriptions)
-		ccount := len(characters)
-		ncount := len(names)
-		scount := len(settings)
-		acount := len(actions)
-		pcount := len(plottwists)
-	*/
-
-	// get home directory
-	homeDir, err := os.UserHomeDir()
+	actionsRaw, err := os.ReadFile(path.Join(dataDir, "actions.txt"))
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
+	actions = strings.Split(string(actionsRaw), "\n")
+	charactersRaw, err := os.ReadFile(path.Join(dataDir, "characters.txt"))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	characters = strings.Split(string(charactersRaw), "\n")
+	descriptionsRaw, err := os.ReadFile(path.Join(dataDir, "descriptions.txt"))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	descriptions = strings.Split(string(descriptionsRaw), "\n")
+	namesRaw, err := os.ReadFile(path.Join(dataDir, "names.txt"))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	names = strings.Split(string(namesRaw), "\n")
+	plottwistsRaw, err := os.ReadFile(path.Join(dataDir, "plottwists.txt"))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	plottwists = strings.Split(string(plottwistsRaw), "\n")
+	settingsRaw, err := os.ReadFile(path.Join(dataDir, "settings.txt"))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	settings = strings.Split(string(settingsRaw), "\n")
+
+	// get home directory
+	// homeDir, err := os.UserHomeDir()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
 	// create data directory
-	csvDir := path.Join(homeDir, "writing-prompts")
+	csvDir := path.Join(workingDir, "writing-prompts")
 	err = os.MkdirAll(csvDir, os.ModePerm)
 	if err != nil {
 		fmt.Println(err)

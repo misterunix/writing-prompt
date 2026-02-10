@@ -5,6 +5,7 @@ Single binary again. All the data files are compressed and embedded in the binar
 -m 0 generic
 -m 1 science fiction
 -m 2 fantasy
+-m 3 paranormal romance
 
 based on
 
@@ -13,11 +14,17 @@ based on
 - description
 - setting
 - plottwist
+- name
 
 ## Examples
 
-- hostage negotiator, preserves, constant, Asia, crime family
-- flight attendant, abducts, scented, kissing booth, blind date
-- hit man, flirts, undaunted, golf course, revelation
-- newlyweds, delivers, factitious, doughnut shop, backstage pass
-- bartender, kidnaps, mortal, train station, epidemic
+
+```txt
+Writing Prompt:
+Character:'Supernatural black market medic'
+Name:'Zevran'
+Action:'Choosing silence instead of a fatal truth'
+Description:'Eyes that remember other lives'
+Setting:'A forgotten shrine humming with warmth'
+Plot Twist:'The prophecy demands only one survives'
+```

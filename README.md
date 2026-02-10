@@ -1,6 +1,6 @@
 # simple writing prompt generator
 
-Install doesnt make sense as I havent figured out where I want all the files to go or to include it in the binary.
+Single binary again. All the data files are compressed and embedded in the binary.
 
 -m 0 generic
 -m 1 science fiction

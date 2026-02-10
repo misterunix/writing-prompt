@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bytes"
+	"compress/gzip"
 	_ "embed"
 	"flag"
 	"fmt"
+	"io"
 	"math/rand/v2"
 	"os"
 	"path"
@@ -12,45 +15,67 @@ import (
 	"strings"
 )
 
-//go:embed data/0/characters.txt
-var Rcharacters string
+//go:embed data/0/0-a.gz
+var R0a []byte
 
-//go:embed data/0/actions.txt
-var Ractions string
+//go:embed data/0/0-c.gz
+var R0c []byte
 
-//go:embed data/0/descriptions.txt
-var Rdescriptions string
+//go:embed data/0/0-d.gz
+var R0d []byte
 
-//go:embed data/0/names.txt
-var Rnames string
+//go:embed data/0/0-n.gz
+var R0n []byte
 
-//go:embed data/0/settings.txt
-var Rsettings string
+//go:embed data/0/0-p.gz
+var R0p []byte
 
-//go:embed data/0/plottwists.txt
-var Rplottwists string
+//go:embed data/0/0-s.gz
+var R0s []byte
 
 //
 //
 //
 
-//go:embed data/1/actions.txt
-var RscifiActions string
+//go:embed data/1/1-a.gz
+var R1a []byte
 
-//go:embed data/1/characters.txt
-var RscifiCharacters string
+//go:embed data/1/1-c.gz
+var R1c []byte
 
-//go:embed data/1/descriptions.txt
-var RscifiDescriptions string
+//go:embed data/1/1-d.gz
+var R1d []byte
 
-//go:embed data/1/names.txt
-var RscifiNames string
+//go:embed data/1/1-n.gz
+var R1n []byte
 
-//go:embed data/1/settings.txt
-var RscifiSettings string
+//go:embed data/1/1-p.gz
+var R1p []byte
 
-//go:embed data/1/plottwists.txt
-var RscifiPlottwists string
+//go:embed data/1/1-s.gz
+var R1s []byte
+
+//
+//
+//
+
+//go:embed data/2/2-a.gz
+var R2a []byte
+
+//go:embed data/2/2-c.gz
+var R2c []byte
+
+//go:embed data/2/2-d.gz
+var R2d []byte
+
+//go:embed data/2/2-n.gz
+var R2n []byte
+
+//go:embed data/2/2-p.gz
+var R2p []byte
+
+//go:embed data/2/2-s.gz
+var R2s []byte
 
 //var workingDir string
 
@@ -325,3 +350,24 @@ func markovChain(data []string) map[string][]string {
 // 	}
 // 	return chain
 // }
+
+// GzipDecompress decompresses a gzip-compressed byte slice.
+func GzipDecompress(data []byte) ([]byte, error) {
+	// Wrap the byte slice in a bytes.Reader to use it as an io.Reader
+	buf := bytes.NewReader(data)
+
+	// Create a new gzip reader
+	reader, err := gzip.NewReader(buf)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create gzip reader: %w", err)
+	}
+	defer reader.Close()
+
+	// Read all the decompressed data into a new byte slice
+	decompressed, err := io.ReadAll(reader)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read decompressed data: %w", err)
+	}
+
+	return decompressed, nil
+}

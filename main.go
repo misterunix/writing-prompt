@@ -7,9 +7,10 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"math/rand/v2"
 	"os"
-	"sort"
+
 	"strings"
 )
 
@@ -75,7 +76,31 @@ var R2p []byte
 //go:embed data/2/2-s.gz
 var R2s []byte
 
-//var workingDir string
+//
+//
+//
+
+//go:embed data/3/3-a.gz
+var R3a []byte
+
+//go:embed data/3/3-c.gz
+var R3c []byte
+
+//go:embed data/3/3-d.gz
+var R3d []byte
+
+//go:embed data/3/3-n.gz
+var R3n []byte
+
+//go:embed data/3/3-p.gz
+var R3p []byte
+
+//go:embed data/3/3-s.gz
+var R3s []byte
+
+//
+//
+//
 
 type markov struct {
 	base       string
@@ -84,224 +109,77 @@ type markov struct {
 	probabilty float64
 }
 
-var port int = 5544
 var logging bool = false
 var mode int
 
+const NUMBER_OF_MODES = 4
+
 var (
-	characters   [3][]string
-	names        [3][]string
-	actions      [3][]string
-	descriptions [3][]string
-	settings     [3][]string
-	plottwists   [3][]string
+	characters   [NUMBER_OF_MODES][]string
+	names        [NUMBER_OF_MODES][]string
+	actions      [NUMBER_OF_MODES][]string
+	descriptions [NUMBER_OF_MODES][]string
+	settings     [NUMBER_OF_MODES][]string
+	plottwists   [NUMBER_OF_MODES][]string
 )
 
 func main() {
 
-	// workingDir, err := os.Getwd()
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	os.Exit(1)
-	// }
-
 	var countWanted int // number of slugs to generate
-	var bookTitle string
 
-	// parse command line arguments
+	modeString := fmt.Sprintf("Mode of operation\n\t0 - Normal (0-%d).\n\t1-Science Fiction\n\t2-Fantasy\n\t3-Paranormal Romance", NUMBER_OF_MODES-1)
+
 	flag.IntVar(&countWanted, "n", 1, "Number of slugs to generate.")
-	flag.StringVar(&bookTitle, "t", "", "Book title to clean.")
 	flag.BoolVar(&logging, "l", false, "Turn logging on.")
-	flag.IntVar(&port, "p", 5544, "Port number for web server.")
-	flag.IntVar(&mode, "m", 0, "Mode of operation: 0 for default, 1 for sci-fi.")
+	flag.IntVar(&mode, "m", 0, modeString)
 
 	flag.Parse()
 
-	// WTF did I do?
-	if bookTitle != "" {
-		cleanTitle(bookTitle)
-		os.Exit(0)
-	}
+	//mode = mode % NUMBER_OF_MODES
 
 	//
 	// 0
 	//
-	dcd, err := GzipDecompress(R0c)
-	if err != nil {
-		fmt.Println("Error decompressing R0c:", err)
-		os.Exit(1)
-	}
-	characters[0] = strings.Split(string(dcd), "\n")
+	characters[0] = PopulateData(R0c, "R0c")
+	names[0] = PopulateData(R0n, "R0n")
+	actions[0] = PopulateData(R0a, "R0a")
+	descriptions[0] = PopulateData(R0d, "R0d")
+	settings[0] = PopulateData(R0s, "R0s")
+	plottwists[0] = PopulateData(R0p, "R0p")
 
-	dcd, err = GzipDecompress(R0n)
-	if err != nil {
-		fmt.Println("Error decompressing R0n:", err)
-		os.Exit(1)
-	}
-	names[0] = strings.Split(string(dcd), "\n")
+	characters[1] = PopulateData(R1c, "R1c")
+	names[1] = PopulateData(R1n, "R1n")
+	actions[1] = PopulateData(R1a, "R1a")
+	descriptions[1] = PopulateData(R1d, "R1d")
+	settings[1] = PopulateData(R1s, "R1s")
+	plottwists[1] = PopulateData(R1p, "R1p")
 
-	dcd, err = GzipDecompress(R0a)
-	if err != nil {
-		fmt.Println("Error decompressing R0a:", err)
-		os.Exit(1)
-	}
-	actions[0] = strings.Split(string(dcd), "\n")
+	characters[2] = PopulateData(R2c, "R2c")
+	names[2] = PopulateData(R2n, "R2n")
+	actions[2] = PopulateData(R2a, "R2a")
+	descriptions[2] = PopulateData(R2d, "R2d")
+	settings[2] = PopulateData(R2s, "R2s")
+	plottwists[2] = PopulateData(R2p, "R2p")
 
-	dcd, err = GzipDecompress(R0d)
-	if err != nil {
-		fmt.Println("Error decompressing R0d:", err)
-		os.Exit(1)
-	}
-	descriptions[0] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R0s)
-	if err != nil {
-		fmt.Println("Error decompressing R0s:", err)
-		os.Exit(1)
-	}
-	settings[0] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R0p)
-	if err != nil {
-		fmt.Println("Error decompressing R0p:", err)
-		os.Exit(1)
-	}
-	plottwists[0] = strings.Split(string(dcd), "\n")
+	characters[3] = PopulateData(R3c, "R3c")
+	names[3] = PopulateData(R3n, "R3n")
+	actions[3] = PopulateData(R3a, "R3a")
+	descriptions[3] = PopulateData(R3d, "R3d")
+	settings[3] = PopulateData(R3s, "R3s")
+	plottwists[3] = PopulateData(R3p, "R3p")
 
 	//
 	//
 	//
-
-	dcd, err = GzipDecompress(R1c)
-	if err != nil {
-		fmt.Println("Error decompressing R1c:", err)
-		os.Exit(1)
-	}
-	characters[1] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R1n)
-	if err != nil {
-		fmt.Println("Error decompressing R1n:", err)
-		os.Exit(1)
-	}
-	names[1] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R1a)
-	if err != nil {
-		fmt.Println("Error decompressing R1a:", err)
-		os.Exit(1)
-	}
-	actions[1] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R1d)
-	if err != nil {
-		fmt.Println("Error decompressing R1d:", err)
-		os.Exit(1)
-	}
-	descriptions[1] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R1s)
-	if err != nil {
-		fmt.Println("Error decompressing R1s:", err)
-		os.Exit(1)
-	}
-	settings[1] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R1p)
-	if err != nil {
-		fmt.Println("Error decompressing R1p:", err)
-		os.Exit(1)
-	}
-	plottwists[1] = strings.Split(string(dcd), "\n")
-
-	//
-	//
-	//
-
-	dcd, err = GzipDecompress(R2c)
-	if err != nil {
-		fmt.Println("Error decompressing R2c:", err)
-		os.Exit(1)
-	}
-	characters[2] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R2n)
-	if err != nil {
-		fmt.Println("Error decompressing R2n:", err)
-		os.Exit(1)
-	}
-	names[2] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R2a)
-	if err != nil {
-		fmt.Println("Error decompressing R2a:", err)
-		os.Exit(1)
-	}
-	actions[2] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R2d)
-	if err != nil {
-		fmt.Println("Error decompressing R2d:", err)
-		os.Exit(1)
-	}
-	descriptions[2] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R2s)
-	if err != nil {
-		fmt.Println("Error decompressing R2s:", err)
-		os.Exit(1)
-	}
-	settings[2] = strings.Split(string(dcd), "\n")
-
-	dcd, err = GzipDecompress(R2p)
-	if err != nil {
-		fmt.Println("Error decompressing R2p:", err)
-		os.Exit(1)
-	}
-	plottwists[2] = strings.Split(string(dcd), "\n")
-
-	//
-	//
-	//
-
-	// create data directory
-	// csvDir := path.Join(workingDir, "writing-prompts")
-	// err = os.MkdirAll(csvDir, os.ModePerm)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	os.Exit(1)
-	// }
-	// fmt.Print("Data directory: '", csvDir, "'\n")
-
-	// // create temp file in data directory
-	// f, err := os.CreateTemp(csvDir, "slugs-*.csv")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// defer f.Close()
 
 	// loop to generate slugs
 	for range countWanted {
 
 		character, name, action, description, setting, plottwist := createSlug()
 
-		/*
-			description := descriptions[rand.IntN(dcount)]
-			character := characters[rand.IntN(ccount)]
-			name := names[rand.IntN(ncount)]
-			setting := settings[rand.IntN(scount)]
-			action := actions[rand.IntN(acount)]
-			plottwist := plottwists[rand.IntN(pcount)]
-		*/
 		// format slug as CSV line
 		save := fmt.Sprintf("Writing Prompt:\nCharacter:'%s'\nName:'%s'\nAction:'%s'\nDescription:'%s'\nSetting:'%s'\nPlot Twist:'%s'\n",
 			character, name, action, description, setting, plottwist)
-
-		// write slug to file
-		// if _, err := f.WriteString(save); err != nil {
-		// 	fmt.Println(err)
-		// 	os.Exit(1)
-		//}
 
 		// print slug to console
 		fmt.Printf("%s", save)
@@ -325,118 +203,6 @@ func createSlug() (string, string, string, string, string, string) {
 	return character, name, action, description, setting, plottwist
 }
 
-func cleanTitle(filename string) error {
-
-	var titles []string // tempory slice to hold titles
-
-	f, err := os.ReadFile(filename) // binary read file
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	lines := strings.Split(string(f), "\n") // split file into lines
-
-	// loop through lines and strip white space
-	for _, line := range lines {
-
-		striped := strings.TrimSpace(line)
-
-		// skip empty lines
-		if striped == "" {
-			continue
-		}
-
-		// skip single word titles
-		if len(striped) == 1 {
-			continue
-		}
-
-		paren := false
-
-		for {
-
-			if strings.Contains(striped, "(") {
-				p1 := strings.Index(striped, "(")
-				p2 := strings.Index(striped, ")")
-				if p1 == -1 || p2 == -1 {
-					break
-				}
-				striped = striped[:p1-1] + striped[p2+1:]
-				paren = true
-			} else {
-				paren = false
-			}
-			if !paren {
-				break
-			}
-		}
-
-		// split title and author
-		t := strings.Split(striped, " by ")
-
-		// add title to slice
-		titles = append(titles, t[0])
-	}
-
-	sort.StringSlice(titles).Sort() // sort titles
-
-	l := len(titles) // get length of titles
-
-	for i := 0; i < l-1; i++ {
-		for j := i + 1; j < l; j++ {
-			if titles[i] == titles[j] {
-				titles = append(titles[:j], titles[j+1:]...)
-				j--
-				l--
-			}
-		}
-	}
-
-	chain := markovChain(titles) // create markov chain
-	for k, v := range chain {
-		fmt.Println(k, v)
-	}
-
-	// save to file
-	os.WriteFile("cleaned.txt", []byte(strings.Join(titles, "\n")), 0644)
-	return nil
-}
-
-// Create Markov chain from a slice of strings
-func markovChain(data []string) map[string][]string {
-	chain := make(map[string][]string)
-
-	for _, line := range data {
-		words := strings.Split(line, " ")
-		for i := 0; i < len(words)-1; i++ {
-			key := words[i]
-			if _, ok := chain[key]; !ok {
-				chain[key] = []string{}
-			}
-			chain[key] = append(chain[key], words[i+1])
-		}
-	}
-	return chain
-}
-
-// // Create Markov chain from a slice of strings
-// func markovChain2(data []string) map[string][]markov {
-// 	chain := make(map[string][]string)
-
-// 	for _, line := range data {
-// 		words := strings.Split(line, " ")
-// 		for i := 0; i < len(words)-1; i++ {
-// 			key := words[i]
-// 			if _, ok := chain[key]; !ok {
-// 				chain[key] = []string{}
-// 			}
-// 			chain[key] = append(chain[key], words[i+1])
-// 		}
-// 	}
-// 	return chain
-// }
-
 // GzipDecompress decompresses a gzip-compressed byte slice.
 func GzipDecompress(data []byte) ([]byte, error) {
 	// Wrap the byte slice in a bytes.Reader to use it as an io.Reader
@@ -456,4 +222,20 @@ func GzipDecompress(data []byte) ([]byte, error) {
 	}
 
 	return decompressed, nil
+}
+
+func PopulateData(rawdata []byte, name string) []string {
+
+	var final []string
+
+	dcd, err := GzipDecompress(rawdata)
+	if err != nil {
+		if logging {
+			log.Fatalln("Error decompressing", name, ":", err)
+		}
+		os.Exit(1)
+	}
+	final = strings.Split(string(dcd), "\n")
+	//fmt.Println("Name:", name, "Count:", len(final))
+	return final
 }
